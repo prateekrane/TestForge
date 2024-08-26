@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from 'react-native'
 import LottieView from 'lottie-react-native'
 import React from 'react'
 import { Dimensions } from 'react-native';
@@ -11,7 +11,10 @@ const Width = Dimensions.get('window').width;
 const Home = ({ navigation }) => {
 
     return (
+
         <View style={styles.container} >
+            <StatusBar
+                backgroundColor="#E5EFF8" />
             <View style={styles.AniText}>
                 <LottieView
                     autoPlay

@@ -1,5 +1,5 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, KeyboardAvoidingView, ScrollView, ActivityIndicator, Dimensions, Platform, Alert } from 'react-native';
-import React, { useContext, useState } from 'react';
+import { StyleSheet, StatusBar, Text, TextInput, TouchableOpacity, View, Image, KeyboardAvoidingView, ScrollView, ActivityIndicator, Dimensions, Platform, Alert } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
@@ -7,12 +7,23 @@ import Zocial from '@expo/vector-icons/Zocial';
 import LottieView from 'lottie-react-native';
 import { createUser } from '../Auth/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 const Width = Dimensions.get('window').width;
+const webClientId = '871651088376-clsk9uka2casiti7561pa6kgd5en5aqs.apps.googleusercontent.com';
+const androidClientId = '871651088376-g98dmqhgul0mhkd5eb9dd2aej2p865h7.apps.googleusercontent.com'
+
+WebBrowser.maybeCompleteAuthSession();
 
 const SignUp = ({ navigation }) => {
+    const config = {
+        webClientId,
+        androidClientId
+    }
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [request, response, promptAsync] = Google.useAuthRequest(config);
     const [erro, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -44,12 +55,26 @@ const SignUp = ({ navigation }) => {
             setLoading(false);
         }
     };
+    const handleToken = async () => {
+        if (response?.type === "success") {
+            const { authentication } = response;
+            const token = authentication?.accessToken;
+            await AsyncStorage.setItem('token', token);
+        }
+    }
+
+    useEffect(() => {
+        handleToken();
+    }, [response])
 
     return (
         <KeyboardAvoidingView
             style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
+            <StatusBar
+                backgroundColor="#E5EFF8"
+            />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <View style={styles.maincanvas}>
                     <TouchableOpacity style={styles.btnback} onPress={() => navigation.navigate('Home')}>
@@ -108,10 +133,11 @@ const SignUp = ({ navigation }) => {
                             </View>
                         </TouchableOpacity>
                         <Text>or continue with</Text>
-                        <TouchableOpacity style={[styles.btncontainer, {
-                            borderWidth: 3,
-                            borderColor: "#C3E0EA",
-                        }]}>
+                        <TouchableOpacity onPress={() => promptAsync()}
+                            style={[styles.btncontainer, {
+                                borderWidth: 3,
+                                borderColor: "#C3E0EA",
+                            }]}>
                             <View style={{ flexDirection: "row" }}>
                                 <Zocial name="google" size={24} color="black" />
                                 <Text style={{ fontSize: 18, fontWeight: "600" }}> Google</Text>

@@ -7,7 +7,7 @@
     "icon": "./assets/main.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/img.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -16,7 +16,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/beta.png",
+        "foregroundImage": "./assets/main.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.pratee_k7.TestForge"
@@ -28,6 +28,7 @@
       "eas": {
         "projectId": "1ce86fe8-b55f-4782-9675-c8c29fc56056"
       }
-    }
+    },
+    "scheme": "TestForge"
   }
 }

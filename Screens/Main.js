@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, StatusBar, TextInput, TouchableOpacity } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
@@ -57,6 +57,8 @@ const MainScreen = () => {
 
     return (
         <View style={styles.container}>
+            <StatusBar
+                backgroundColor="#E5EFF8" />
             <View style={{ width: "57%", alignItems: "flex-end", marginTop: Width / 9 }}>
                 <TouchableOpacity
                     style={styles.btnback}

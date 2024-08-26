@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StatusBar, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
@@ -76,6 +76,8 @@ const Response = () => {
 
     return (
         <View style={styles.container}>
+            <StatusBar
+                backgroundColor="#E5EFF8" />
             {loading ? (
                 <View style={styles.loaderContainer}>
                     <LottieView

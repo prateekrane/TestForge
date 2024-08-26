@@ -1,5 +1,5 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
-import React, { useContext, useState } from 'react';
+import { StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import LottieView from 'lottie-react-native';
 import { Dimensions } from 'react-native';
@@ -8,12 +8,28 @@ import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import Zocial from '@expo/vector-icons/Zocial';
 import { login } from '../Auth/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
+
+
+
+
 const Width = Dimensions.get('window').width;
+const webClientId = '';
+const androidClientId = ''
+
+
+WebBrowser.maybeCompleteAuthSession();
 
 const Login = ({ navigation }) => {
+    const config = {
+        webClientId,
+        androidClientId
+    }
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [erro, setError] = useState('');
+    const [request, response, promptAsync] = Google.useAuthRequest(config);
     const [loading, setLoading] = useState(false); // State to manage loading
 
     const handleLogin = async () => {
@@ -41,14 +57,25 @@ const Login = ({ navigation }) => {
         }
     };
 
+    const handleToken = async () => {
+        if (response?.type === "success") {
+            const { authentication } = response;
+            const token = authentication?.accessToken;
+            await AsyncStorage.setItem('token', token);
+        }
+    }
 
-
+    useEffect(() => {
+        handleToken();
+    }, [response])
 
     return (
         <KeyboardAvoidingView
             style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // Adjust behavior based on platform
         >
+            <StatusBar
+                backgroundColor="#E5EFF8" />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <View style={styles.maincanvas}>
                     <TouchableOpacity style={styles.btnback} onPress={() => navigation.navigate('Home')}>
@@ -108,6 +135,7 @@ const Login = ({ navigation }) => {
                             or continue with
                         </Text>
                         <TouchableOpacity
+                            onPress={() => promptAsync()}
                             style={[styles.btncontainer, {
                                 borderWidth: 3,
                                 borderColor: "#C3E0EA",
