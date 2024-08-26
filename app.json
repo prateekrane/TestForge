@@ -4,7 +4,7 @@
     "slug": "TestForge",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/main.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -16,12 +16,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/beta.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.pratee_k7.TestForge"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1ce86fe8-b55f-4782-9675-c8c29fc56056"
+      }
     }
   }
 }
