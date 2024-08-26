@@ -10,8 +10,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 const Width = Dimensions.get('window').width;
-const webClientId = '871651088376-clsk9uka2casiti7561pa6kgd5en5aqs.apps.googleusercontent.com';
-const androidClientId = '871651088376-g98dmqhgul0mhkd5eb9dd2aej2p865h7.apps.googleusercontent.com'
+const webClientId = '';
+const androidClientId = ''
 
 WebBrowser.maybeCompleteAuthSession();
 
